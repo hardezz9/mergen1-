@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практические задания JavaScript №46–65</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f5f9;color:#202637}
+header{background:#182238;color:white;padding:28px 18px;text-align:center}header h1{margin:0 0 8px;font-size:26px}
+main{max-width:1000px;margin:24px auto;padding:0 14px}.card{background:white;border:1px solid #e1e6ef;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px #1822380a}
+h2{font-size:19px;margin:0 0 12px;color:#253b68}.result{background:#f5f7fb;border-radius:8px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:12px;font-family:Consolas,monospace;font-size:14px}
+button{border:0;border-radius:8px;background:#365ee8;color:white;padding:10px 14px;cursor:pointer;margin:4px 3px 4px 0;font-size:14px}
+button.secondary{background:#e8ecf5;color:#202637}input{padding:10px;border:1px solid #cbd3e1;border-radius:8px;margin:4px;max-width:100%}
+input[type=number]{width:110px}ul{padding-left:24px}.done{text-decoration:line-through;color:#778095}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.question{font-weight:bold;margin:14px 0}.answer{display:block;text-align:left;width:100%;background:#eef2ff;color:#202637}
+small{color:#68738a}label{display:inline-flex;align-items:center;gap:7px;margin:6px 10px 6px 0}
+</style>
+</head>
+<body>
+<header><h1>Практические задания по JavaScript №46–65</h1><div>Готовые решения. Задания 61–65 можно проверить прямо на странице.</div></header>
+<main>
+<section class="card"><h2>46. Проверка возраста для регистрации</h2><div class="result" id="r46"></div></section>
+<section class="card"><h2>47. Скидка для студентов</h2><div class="result" id="r47"></div></section>
+<section class="card"><h2>48. Проверка треугольника</h2><div class="result" id="r48"></div></section>
+<section class="card"><h2>49. Категория пользователя</h2><div class="result" id="r49"></div></section>
+<section class="card"><h2>50. Контроль заряда батареи</h2><div class="result" id="r50"></div></section>
+<section class="card"><h2>51. Числа от 1 до 100, кратные пяти</h2><div class="result" id="r51"></div></section>
+<section class="card"><h2>52. Факториал числа 6</h2><div class="result" id="r52"></div></section>
+<section class="card"><h2>53. Поиск отрицательных чисел</h2><div class="result" id="r53"></div></section>
+<section class="card"><h2>54. Поиск студента в списке</h2><div class="result" id="r54"></div></section>
+<section class="card"><h2>55. Сортировка результатов тестирования</h2><div class="result" id="r55"></div></section>
+<section class="card"><h2>56. Калькулятор площади</h2><div class="result" id="r56"></div></section>
+<section class="card"><h2>57. Проверка палиндрома</h2><div class="result" id="r57"></div></section>
+<section class="card"><h2>58. Подсчёт слов в предложении</h2><div class="result" id="r58"></div></section>
+<section class="card"><h2>59. Генератор случайного пароля</h2><div class="result" id="r59"></div><button onclick="generatePassword()">Создать новый пароль</button></section>
+<section class="card"><h2>60. Конвертер тенге в доллары</h2><div class="result" id="r60"></div></section>
+
+<section class="card"><h2>61. Интерактивный счётчик</h2>
+<div class="row"><button onclick="changeCount(1)">+</button><button onclick="changeCount(-1)">−</button><button class="secondary" onclick="resetCount()">Сброс</button><strong id="counter" style="font-size:24px">0</strong></div></section>
+
+<section class="card"><h2>62. Калькулятор среднего балла</h2>
+<p>Введите баллы от 0 до 100:</p><div class="row"><input type="number" id="score1" min="0" max="100" placeholder="Предмет 1"><input type="number" id="score2" min="0" max="100" placeholder="Предмет 2"><input type="number" id="score3" min="0" max="100" placeholder="Предмет 3"><button onclick="calculateAverage()">Рассчитать</button></div><div class="result" id="averageResult">Результат появится здесь.</div></section>
+
+<section class="card"><h2>63. Список задач (To-Do List)</h2>
+<div class="row"><input id="taskInput" placeholder="Введите новую задачу" style="flex:1;min-width:200px"><button onclick="addTask()">Добавить</button></div><ul id="taskList"></ul></section>
+
+<section class="card"><h2>64. Тест по JavaScript</h2><div id="quizArea"><div class="question" id="quizQuestion"></div><div id="quizAnswers"></div><small id="quizProgress"></small></div><div class="result" id="quizResult" hidden></div><button id="restartQuiz" class="secondary" onclick="startQuiz()">Начать заново</button></section>
+
+<section class="card"><h2>65. Электронная система посещаемости</h2>
+<div class="row"><label>Дата занятия: <input type="date" id="attendanceDate"></label></div>
+<div id="attendanceList"></div><button onclick="summarizeAttendance()">Подвести итог</button><button class="secondary" onclick="saveAttendance()">Сохранить</button><button class="secondary" onclick="loadAttendance()">Загрузить сохранённое</button><div class="result" id="attendanceResult">Отметьте присутствующих и нажмите «Подвести итог».</div></section>
+</main>
+<script>
+// 46
+let age = 15;
+function checkAge(value){return value >= 16 ? "Регистрация разрешена" : "Регистрация недоступна";}
+document.getElementById("r46").textContent = [15,16,20].map(a=>a+" лет: "+checkAge(a)).join("\n");
+
+// 47
+let price = 12000;
+function studentPrice(amount,isStudent){let discount=isStudent?amount*0.10:0;return {discount,total:amount-discount};}
+let p1=studentPrice(price,true),p2=studentPrice(price,false);
+document.getElementById("r47").textContent=`Студент: исходная цена ${price} ₸, скидка ${p1.discount} ₸, итог ${p1.total} ₸\nНе студент: исходная цена ${price} ₸, скидка ${p2.discount} ₸, итог ${p2.total} ₸`;
+
+// 48
+let a=5,b=7,c=10;
+let triangle=a>0&&b>0&&c>0&&a+b>c&&a+c>b&&b+c>a;
+document.getElementById("r48").textContent=triangle?"Треугольник существует":"Треугольник не существует";
+
+// 49
+let role="teacher";
+function roleMessage(value){switch(value){case "admin":return "Полный доступ";case "teacher":return "Доступ преподавателя";case "student":return "Доступ студента";default:return "Доступ запрещён";}}
+document.getElementById("r49").textContent=["admin","teacher","student","guest"].map(x=>x+": "+roleMessage(x)).join("\n");
+
+// 50
+function batteryMessage(value){if(value<0||value>100)return "Некорректное значение заряда";if(value<=15)return "Срочно подключите зарядку";else if(value<=30)return "Низкий заряд";else if(value<=80)return "Нормальный заряд";return "Высокий заряд";}
+document.getElementById("r50").textContent=[10,25,65,95,110].map(x=>x+"%: "+batteryMessage(x)).join("\n");
+
+// 51
+let multiples=[];for(let i=1;i<=100;i++){if(i%5===0)multiples.push(i);}
+document.getElementById("r51").textContent=multiples.join(", ")+"\nКоличество: "+multiples.length;
+
+// 52
+let n=6,factorial=1;for(let i=1;i<=n;i++)factorial*=i;
+document.getElementById("r52").textContent=`${n}! = ${factorial}`;
+
+// 53
+let numbers=[12,-5,8,-9,15,-2,0,21],negativeNumbers=[];
+for(let number of numbers){if(number<0)negativeNumbers.push(number);}
+document.getElementById("r53").textContent="Отрицательные числа: "+negativeNumbers.join(", ")+"\nКоличество: "+negativeNumbers.length;
+
+// 54
+let students=["Алия","Руслан","Мадина","Арман","Данияр"],searchName="Мадина";
+document.getElementById("r54").textContent=students.includes(searchName)?"Студент найден: "+searchName:"Студент не найден: "+searchName;
+
+// 55
+let scores=[75,92,48,85,67,100,58],ascending=[...scores].sort((a,b)=>a-b);
+document.getElementById("r55").textContent="По возрастанию: "+ascending.join(", ")+"\nМинимум: "+Math.min(...scores)+"\nМаксимум: "+Math.max(...scores)+"\nПо убыванию: "+[...scores].sort((a,b)=>b-a).join(", ");
+
+// 56
+function calculateArea(width,height){return width*height;}
+document.getElementById("r56").textContent="Площадь прямоугольника 5 × 8 = "+calculateArea(5,8);
+
+// 57
+function isPalindrome(word){let normalized=word.toLowerCase();return normalized===normalized.split("").reverse().join("");}
+document.getElementById("r57").textContent=["level","radar","hello"].map(word=>word+": "+(isPalindrome(word)?"палиндром":"не палиндром")).join("\n");
+
+// 58
+let sentence="JavaScript is a popular programming language";
+function countWords(value){let trimmed=value.trim();return trimmed===""?0:trimmed.split(/\\s+/).length;}
+document.getElementById("r58").textContent=`Текст: "${sentence}"\nКоличество слов: ${countWords(sentence)}`;
+
+// 59
+function generatePassword(){let characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",password="";for(let i=0;i<8;i++){password+=characters[Math.floor(Math.random()*characters.length)];}document.getElementById("r59").textContent="Случайный пароль: "+password;}
+generatePassword();
+
+// 60
+function convertCurrency(amount,rate){if(amount<0||rate<=0)throw new Error("Сумма должна быть неотрицательной, курс — положительным.");return amount/rate;}
+document.getElementById("r60").textContent="50000 ₸ при учебном курсе 500 ₸ за 1 USD = "+convertCurrency(50000,500).toFixed(2)+" USD";
+
+// 61
+let count=0;function changeCount(value){count+=value;document.getElementById("counter").textContent=count;}function resetCount(){count=0;document.getElementById("counter").textContent=count;}
+
+// 62
+function calculateAverage(){let values=["score1","score2","score3"].map(id=>document.getElementById(id).value);let out=document.getElementById("averageResult");if(values.some(v=>v==="")){out.textContent="Заполните все три поля.";return;}let nums=values.map(Number);if(nums.some(v=>!Number.isFinite(v)||v<0||v>100)){out.textContent="Каждый балл должен быть от 0 до 100.";return;}let avg=nums.reduce((sum,v)=>sum+v,0)/nums.length;let level=avg>=85?"Высокая успеваемость":avg>=60?"Средняя успеваемость":"Нужно улучшить результат";out.textContent=`Средний балл: ${avg.toFixed(2)} из 100\\n${level}`;}
+
+// 63
+function addTask(){let input=document.getElementById("taskInput"),value=input.value.trim();if(!value){alert("Введите текст задачи.");return;}let li=document.createElement("li"),label=document.createElement("label"),checkbox=document.createElement("input"),span=document.createElement("span"),del=document.createElement("button");checkbox.type="checkbox";checkbox.addEventListener("change",()=>span.classList.toggle("done",checkbox.checked));span.textContent=value;del.textContent="Удалить";del.className="secondary";del.addEventListener("click",()=>li.remove());label.append(checkbox,span);li.append(label,del);document.getElementById("taskList").append(li);input.value="";input.focus();}
+document.getElementById("taskInput").addEventListener("keydown",e=>{if(e.key==="Enter")addTask();});
+
+// 64
+const quiz=[{q:"Как объявить переменную, значение которой можно менять?",a:["const","let","fixed"],correct:1},{q:"Какой оператор проверяет строгое равенство?",a:["=","==","==="],correct:2},{q:"Как добавить элемент в конец массива?",a:["push()","pop()","shift()"],correct:0},{q:"Для чего используется return?",a:["Для вывода цвета","Для возврата значения из функции","Для запуска цикла"],correct:1},{q:"Как добавить обработчик события?",a:["addEventListener()","createEvent()","eventStart()"],correct:0}];
+let quizIndex=0,quizScore=0,quizLocked=false;
+function startQuiz(){quizIndex=0;quizScore=0;quizLocked=false;document.getElementById("quizResult").hidden=true;document.getElementById("quizArea").hidden=false;showQuestion();}
+function showQuestion(){let q=quiz[quizIndex];document.getElementById("quizQuestion").textContent=(quizIndex+1)+". "+q.q;document.getElementById("quizProgress").textContent=`Вопрос ${quizIndex+1} из ${quiz.length}`;let area=document.getElementById("quizAnswers");area.innerHTML="";q.a.forEach((answer,index)=>{let btn=document.createElement("button");btn.className="answer";btn.textContent=answer;btn.onclick=()=>answerQuestion(index);area.append(btn);});}
+function answerQuestion(index){if(quizLocked)return;quizLocked=true;if(index===quiz[quizIndex].correct)quizScore++;let buttons=document.querySelectorAll("#quizAnswers button");buttons.forEach(btn=>btn.disabled=true);let next=document.createElement("button");next.textContent=quizIndex===quiz.length-1?"Показать результат":"Следующий вопрос";next.onclick=()=>{quizIndex++;quizLocked=false;if(quizIndex<quiz.length)showQuestion();else finishQuiz();};document.getElementById("quizAnswers").append(next);}
+function finishQuiz(){document.getElementById("quizArea").hidden=true;let result=document.getElementById("quizResult");result.hidden=false;result.textContent=`Правильных ответов: ${quizScore} из ${quiz.length}\\nРезультат: ${Math.round(quizScore/quiz.length*100)}%`;}
+startQuiz();
+
+// 65
+const attendanceStudents=["Алия","Руслан","Мадина","Арман","Данияр"];
+function renderAttendance(){let box=document.getElementById("attendanceList");box.innerHTML="";attendanceStudents.forEach((name,i)=>{let label=document.createElement("label"),cb=document.createElement("input");cb.type="checkbox";cb.dataset.student=name;cb.id="att"+i;label.append(cb,document.createTextNode(name+" — присутствует"));box.append(label,document.createElement("br"));});}
+function summarizeAttendance(){let boxes=[...document.querySelectorAll("#attendanceList input")],present=boxes.filter(x=>x.checked).length,absent=boxes.length-present,percent=boxes.length?present/boxes.length*100:0;document.getElementById("attendanceResult").textContent=`Дата: ${document.getElementById("attendanceDate").value||"не указана"}\\nПрисутствуют: ${present}\\nОтсутствуют: ${absent}\\nПосещаемость: ${percent.toFixed(0)}%`;}
+function saveAttendance(){let data={date:document.getElementById("attendanceDate").value,checked:[...document.querySelectorAll("#attendanceList input")].map(x=>x.checked)};localStorage.setItem("attendanceData",JSON.stringify(data));document.getElementById("attendanceResult").textContent="Результаты сохранены в localStorage.";}
+function loadAttendance(){let raw=localStorage.getItem("attendanceData");if(!raw){document.getElementById("attendanceResult").textContent="Сохранённых данных нет.";return;}let data=JSON.parse(raw);document.getElementById("attendanceDate").value=data.date||"";document.querySelectorAll("#attendanceList input").forEach((x,i)=>x.checked=!!data.checked[i]);summarizeAttendance();}
+renderAttendance();
+</script>
+</body>
+</html>
